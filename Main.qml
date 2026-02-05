@@ -36,8 +36,7 @@ Window {
         }
     }
 
-
-    Image {
+    Item {
         id: coverImg
         z: 1
         x: 20
@@ -45,16 +44,21 @@ Window {
         width: 300
         height: 300
 
-        source: "UIdesign/cover.png"
-        fillMode: Image.PreserveAspectCrop
+        Image {
+            id: coverImage
+            anchors.fill: parent
 
-        layer.enabled: true
-        layer.effect: OpacityMask {
-            maskSource: Rectangle {
-                width: 300
-                height: 300
-                //radius: 15
-                visible: false
+            source: "UIdesign/cover2.jpg"
+            fillMode: Image.PreserveAspectCrop
+
+            layer.enabled: true
+            layer.effect: OpacityMask {
+                maskSource: Rectangle {
+                    width: 300
+                    height: 300
+                    radius: 15
+                    visible: false
+                }
             }
         }
     }
@@ -111,7 +115,7 @@ Window {
         wrapMode: Text.Wrap
     }
 
-    Rectangle {
+    PlayingSlider {
         id: playingSlider
         anchors.bottom: body.bottom
         anchors.bottomMargin: 50
@@ -122,23 +126,17 @@ Window {
         anchors.rightMargin: 30
 
         height: 6
-        radius: 3
 
-        color: "#bec2c6"
-
-        Rectangle {
-            id: playedPart
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.left: parent.left
-            radius: parent.radius
-
-            width: window.position / window.duration * parent.width
-
-            color: "#858789"
-        }
+        from: 0
+        to: 215
     }
 
+    Text {
+        id: playingSliderTest
+        text: playingSlider.position
+        anchors.top: playingSlider.bottom
+        anchors.horizontalCenter: playingSlider.horizontalCenter
+    }
 
     Text {
         id: duration
@@ -187,6 +185,24 @@ Window {
         fillMode: Image.PreserveAspectCrop
 
         source: "icons/like_n.svg"
+
+        SwitchButton {
+            id: likeButtonSwitch
+            anchors.fill: parent
+
+            property int stateNum: 0
+
+            onIsTapped: {
+                stateNum = stateNum === 0 ? 1 : 0
+            }
+            onStateNumChanged: {
+                if(stateNum === 0){
+                    likeButton.source = "icons/like_n.svg"
+                }else {
+                    likeButton.source = "icons/like_y.svg"
+                }
+            }
+        }
     }
 
     Image {
@@ -251,6 +267,24 @@ Window {
             radius: 15.0
             samples: 17
             color: "#bec2c6"
+        }
+
+        SwitchButton {
+            id: playButtonSwitch
+            anchors.fill: parent
+
+            property int stateNum: 0
+
+            onIsTapped: {
+                stateNum = stateNum === 0 ? 1 : 0
+            }
+            onStateNumChanged: {
+                if(stateNum === 0){
+                    playButton.source = "icons/play.svg"
+                }else {
+                    playButton.source = "icons/pause.svg"
+                }
+            }
         }
     }
 

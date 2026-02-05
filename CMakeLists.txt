@@ -4,7 +4,7 @@ project(GoPlayerUI VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Quick)
+find_package(Qt6 REQUIRED COMPONENTS Quick QuickControls2)
 
 qt_standard_project_setup(REQUIRES 6.5)
 
@@ -27,6 +27,9 @@ qt_add_qml_module(appGoPlayerUI
         RESOURCES icons/last.svg
         RESOURCES icons/pause.svg icons/play.svg
         RESOURCES icons/last.svg icons/like_n.svg icons/like_y.svg icons/pause.svg icons/play.svg icons/share.svg
+        QML_FILES SwitchButton.qml
+        QML_FILES PlayingSlider.qml
+        RESOURCES UIdesign/cover2.jpg
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
@@ -42,6 +45,7 @@ set_target_properties(appGoPlayerUI PROPERTIES
 
 target_link_libraries(appGoPlayerUI
     PRIVATE Qt6::Quick
+    PRIVATE Qt6::QuickControls2
 )
 
 include(GNUInstallDirs)
