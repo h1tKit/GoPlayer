@@ -30,6 +30,12 @@ qt_add_qml_module(appGoPlayerUI
         QML_FILES SwitchButton.qml
         QML_FILES PlayingSlider.qml
         RESOURCES UIdesign/cover2.jpg
+        RESOURCES icons/menu.svg
+        QML_FILES MaxModeWindow.qml
+        QML_FILES MinModeWindow.qml
+        RESOURCES icons/volume_low.svg
+        RESOURCES icons/pause_max.svg icons/volume_low.svg
+        RESOURCES icons/pause_max.svg icons/play_max.svg
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
