@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>last.svg</file>
+        <file>like_n.svg</file>
+        <file>like_y.svg</file>
+        <file>menu.svg</file>
+        <file>pause.svg</file>
+        <file>pause_max.svg</file>
+        <file>play.svg</file>
+        <file>play_max.svg</file>
+        <file>share.svg</file>
+        <file>volume_low.svg</file>
+    </qresource>
+</RCC>

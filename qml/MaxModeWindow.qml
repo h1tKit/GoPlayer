@@ -1,5 +1,7 @@
 import QtQuick
 import Qt5Compat.GraphicalEffects
+import QtQuick.Layouts
+import QtQuick.Controls
 
 Window {
     id: window
@@ -60,7 +62,7 @@ Window {
         anchors.bottom: coverImg.top
         width: height
 
-        source: "icons/menu.svg"
+        source: "qrc:/icons/menu.svg"
         fillMode: Image.PreserveAspectCrop
 
         SwitchButton {
@@ -82,7 +84,7 @@ Window {
             id: coverImage
             anchors.fill: parent
 
-            source: "UIdesign/cover2.jpg"
+            source: "qrc:/img/cover2.jpg"
             fillMode: Image.PreserveAspectCrop
 
             layer.enabled: true
@@ -223,7 +225,7 @@ Window {
 
         fillMode: Image.PreserveAspectCrop
 
-        source: "icons/like_n.svg"
+        source: "qrc:/icons/like_n.svg"
 
         SwitchButton {
             id: likeButtonSwitch
@@ -236,9 +238,9 @@ Window {
             }
             onStateNumChanged: {
                 if(stateNum === 0){
-                    likeButton.source = "icons/like_n.svg"
+                    likeButton.source = "qrc:/icons/like_n.svg"
                 }else {
-                    likeButton.source = "icons/like_y.svg"
+                    likeButton.source = "qrc:/icons/like_y.svg"
                 }
             }
         }
@@ -254,7 +256,7 @@ Window {
 
         fillMode: Image.PreserveAspectCrop
 
-        source: "icons/last.svg"
+        source: "qrc:/icons/last.svg"
 
         layer.enabled: true
         layer.effect: DropShadow {
@@ -277,7 +279,7 @@ Window {
 
         fillMode: Image.PreserveAspectCrop
 
-        source: "icons/last.svg"
+        source: "qrc:/icons/last.svg"
 
         rotation: 180
 
@@ -302,7 +304,7 @@ Window {
 
         fillMode: Image.PreserveAspectCrop
 
-        source: "icons/play_max.svg"
+        source: "qrc:/icons/play_max.svg"
 
         layer.enabled: true
         layer.effect: DropShadow {
@@ -325,9 +327,9 @@ Window {
             }
             onStateNumChanged: {
                 if(stateNum === 0){
-                    playButton.source = "icons/play_max.svg"
+                    playButton.source = "qrc:/icons/play_max.svg"
                 }else {
-                    playButton.source = "icons/pause_max.svg"
+                    playButton.source = "qrc:/icons/pause_max.svg"
                 }
             }
         }
@@ -343,7 +345,7 @@ Window {
 
         fillMode: Image.PreserveAspectCrop
 
-        source: "icons/volume_low.svg"
+        source:  "qrc:/icons/volume_low.svg"
     }
 
     PlayingSlider {
@@ -361,4 +363,51 @@ Window {
         from: 0
         to: 100
     }
+
+    Item {
+        id: rightArea
+        anchors.top: coverImg.top
+        anchors.left: coverImg.right
+        anchors.leftMargin: 20
+        anchors.bottom: body.bottom
+        anchors.bottomMargin: 20
+        anchors.right: body.right
+        anchors.rightMargin: 20
+
+        Rectangle {
+            anchors.fill: parent
+            radius: 15
+            color: "white"
+        }
+
+        ColumnLayout {
+            anchors.centerIn: parent
+            spacing: 15
+
+            TextField {
+                id: pathInput
+                Layout.preferredWidth: 300
+                placeholderText: "filepath: (such as：C:/test.txt)"
+                font.pixelSize: 14
+            }
+
+            Button {
+                text: "Get"
+                Layout.alignment: Qt.AlignHCenter
+                font.pixelSize: 14
+
+                onClicked: {
+                    // QML中console.log会自动映射到C++的qDebug输出
+                    console.log("用户输入的文件路径：", pathInput.text)
+
+                    // 输入为空，给出提示
+                    if (pathInput.text.trim() === "") {
+                        console.log("文件路径输入为空！")
+                    }
+                }
+            }
+        }
+    }
+
+
 }

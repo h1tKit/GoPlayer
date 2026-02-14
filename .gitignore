@@ -1,0 +1,23 @@
+# Qt构建目录
+build/
+build-*/
+cmake-build-*/
+
+# Qt Creator配置
+.qtcreator/
+*.user
+CMakeLists.txt.user
+.qmake.stash
+*.pro.user*
+
+# 编译生成文件
+*.o
+*.so
+*.dll
+*.exe
+*.pdb
+*.dylib
+
+# 临时文件
+*.tmp
+*.log

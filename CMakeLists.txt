@@ -3,40 +3,51 @@ cmake_minimum_required(VERSION 3.16)
 project(GoPlayerUI VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_AUTORCC ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Quick QuickControls2)
 
 qt_standard_project_setup(REQUIRES 6.5)
 
 qt_add_executable(appGoPlayerUI
-    main.cpp
+    cpp/source/main.cpp
 )
 
 qt_add_qml_module(appGoPlayerUI
     URI GoPlayerUI
+    VERSION 1.0
+
     QML_FILES
-        Main.qml
-        QML_FILES GoWindow.qml
-        SOURCES
-        QML_FILES
-        RESOURCES UIdesign/cover.png
-        QML_FILES FontViewer.qml
-        RESOURCES
-        RESOURCES icons/like_n.svg
-        icons/share.svg
-        RESOURCES icons/last.svg
-        RESOURCES icons/pause.svg icons/play.svg
-        RESOURCES icons/last.svg icons/like_n.svg icons/like_y.svg icons/pause.svg icons/play.svg icons/share.svg
-        QML_FILES SwitchButton.qml
-        QML_FILES PlayingSlider.qml
-        RESOURCES UIdesign/cover2.jpg
-        RESOURCES icons/menu.svg
-        QML_FILES MaxModeWindow.qml
-        QML_FILES MinModeWindow.qml
-        RESOURCES icons/volume_low.svg
-        RESOURCES icons/pause_max.svg icons/volume_low.svg
-        RESOURCES icons/pause_max.svg icons/play_max.svg
+        qml/Main.qml
+        qml/FontViewer.qml
+        qml/GoWindow.qml
+        qml/MaxModeWindow.qml
+        qml/MinModeWindow.qml
+        qml/PlayingSlider.qml
+        qml/SwitchButton.qml
+
+    #RESOURCE_PREFIX "/"  # 关键：将资源前缀改为根路径
+    # RESOURCES
+    #     resource/icons/last.svg
+    #     resource/icons/like_n.svg
+    #     resource/icons/like_y.svg
+    #     resource/icons/menu.svg
+    #     resource/icons/pause.svg
+    #     resource/icons/pause_max.svg
+    #     resource/icons/play.svg
+    #     resource/icons/play_max.svg
+    #     resource/icons/share.svg
+    #     resource/icons/volume_low.svg
+
+    # RESOURCES
+    #     resource/images/cover.png
+    #     resource/images/cover2.jpg
+
+    SOURCES
+    RESOURCES resource/icons/icons.qrc
+    RESOURCES resource/images/images.qrc
 )
+
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
