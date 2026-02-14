@@ -381,6 +381,7 @@ Window {
         }
 
         ColumnLayout {
+            visible: false
             anchors.centerIn: parent
             spacing: 15
 
@@ -406,6 +407,12 @@ Window {
                     }
                 }
             }
+        }
+
+        SongListView {
+            id: songlistView
+            anchors.fill: parent
+            anchors.margins: 20
         }
     }
 

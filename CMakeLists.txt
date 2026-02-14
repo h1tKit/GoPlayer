@@ -46,6 +46,7 @@ qt_add_qml_module(appGoPlayerUI
     SOURCES
     RESOURCES resource/icons/icons.qrc
     RESOURCES resource/images/images.qrc
+    QML_FILES qml/SongListView.qml
 )
 
 
