@@ -25,28 +25,16 @@ qt_add_qml_module(appGoPlayerUI
         qml/MinModeWindow.qml
         qml/PlayingSlider.qml
         qml/SwitchButton.qml
-
-    #RESOURCE_PREFIX "/"  # 关键：将资源前缀改为根路径
-    # RESOURCES
-    #     resource/icons/last.svg
-    #     resource/icons/like_n.svg
-    #     resource/icons/like_y.svg
-    #     resource/icons/menu.svg
-    #     resource/icons/pause.svg
-    #     resource/icons/pause_max.svg
-    #     resource/icons/play.svg
-    #     resource/icons/play_max.svg
-    #     resource/icons/share.svg
-    #     resource/icons/volume_low.svg
-
-    # RESOURCES
-    #     resource/images/cover.png
-    #     resource/images/cover2.jpg
+        qml/SongListView.qml
 
     SOURCES
-    RESOURCES resource/icons/icons.qrc
-    RESOURCES resource/images/images.qrc
-    QML_FILES qml/SongListView.qml
+        cpp/source/main.cpp
+
+    RESOURCES
+        resource/icons/icons.qrc
+        resource/images/images.qrc
+        resource/musics/musics.qrc
+
 )
 
 

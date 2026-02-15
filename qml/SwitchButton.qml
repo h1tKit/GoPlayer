@@ -9,17 +9,17 @@ Item {
     TapHandler {
         onTapped: {
             root.isTapped()
-            console.log("tapped")
+            //console.log("tapped")
         }
     }
     HoverHandler {
         onHoveredChanged: {
             if(hovered) {
                 root.isHovered = true
-                console.log("hovering")
+                //console.log("hovering")
             }else {
                 root.isHovered = false
-                console.log("removed")
+                //console.log("removed")
             }
         }
     }

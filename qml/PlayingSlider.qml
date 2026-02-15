@@ -9,6 +9,7 @@ Item {
     property alias to: slider.to
 
     property alias position: slider.position
+    property alias value: slider.value
 
     Slider {
         id: slider

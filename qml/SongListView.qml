@@ -5,6 +5,9 @@ import Qt5Compat.GraphicalEffects
 
 ListView {
     id: playlistView
+
+    property string currentSongFilePath: playlistView.currentItem.songFilePath
+
     width: parent.width
     height: parent.height
     spacing: 8
@@ -198,13 +201,26 @@ ListView {
         id: delegateItem
         property string songTitle: model.title // 缓存model属性，避免多次读取model，避免「重复绑定」
         property string songArtist: model.artist
-        property string songFilePath: "qrc:/img/cover2.jpg"
+        property string coverFilePath: "qrc:/img/cover2.jpg"
+        property string songFilePath: model.filePath
 
         width: playlistView.width -12
         height: delegateHeight
         radius: 5
-        color: delegateItem.ListView.isCurrentItem ? "#BBBBBB" : (hoverHandler.hovered ? "#DDDDDD" : "white")
-
+        //color: ListView.isCurrentItem ? "#BBBBBB" : (hoverHandler.hovered ? "#DDDDDD" : "white")
+        Connections {
+            target: playlistView
+            function onCurrentIndexChanged() {
+                // 用"无效赋值"触发绑定重计算（不覆盖绑定）
+                delegateItem.color = Qt.binding(() => {
+                    const isSelected = playlistView.currentIndex === index;
+                    const isHovered = hoverHandler.hovered;
+                    if (isSelected) return "#BBBBBB";
+                    if (isHovered) return "#DDDDDD";
+                    return "white";
+                });
+            }
+        }
 
         Behavior on color {
             ColorAnimation { duration: 120; easing.type: Easing.Linear }
@@ -234,7 +250,7 @@ ListView {
             repeat: false
             // 防抖触发后，执行颜色更新逻辑
             onTriggered: {
-                console.log("Hover防抖生效 | index:", index, "hovered:", hoverHandler.hovered);
+                //console.log("Hover防抖生效 | index:", index, "hovered:", hoverHandler.hovered);
                 updateItemColor();
             }
         }
@@ -262,7 +278,7 @@ ListView {
 
             sourceComponent: Image {
                 anchors.fill: parent
-                source: songFilePath
+                source: coverFilePath
                 fillMode: Image.PreserveAspectFit
                 cache: true // 开启图片缓存，避免重复加载同一图片
                 asynchronous: true // 异步加载图片，不阻塞UI线程
@@ -280,11 +296,11 @@ ListView {
                 onStatusChanged: {
                     // 加载成功
                     if (status === Image.Ready) {
-                        console.log("[Loader测试] Image加载完成 | index:", index, "| 路径:", source);
+                        //console.log("[Loader测试] Image加载完成 | index:", index, "| 路径:", source);
                     }
                     // 加载失败（便于排查路径问题）
                     else if (status === Image.Error) {
-                        console.log("[Loader测试] Image加载失败 | index:", index, "| 路径:", source, "| 错误:", errorString);
+                        //console.log("[Loader测试] Image加载失败 | index:", index, "| 路径:", source, "| 错误:", errorString);
                     }
                 }
             }

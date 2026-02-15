@@ -2,6 +2,7 @@ import QtQuick
 import Qt5Compat.GraphicalEffects
 import QtQuick.Layouts
 import QtQuick.Controls
+import QtMultimedia
 
 Window {
     id: window
@@ -13,6 +14,17 @@ Window {
 
     property int duration: 215
     property int position: 87
+
+    AudioOutput {
+        id: audioOutput
+        volume: volumeSlider.position
+    }
+
+    MediaPlayer {
+        id: player
+        audioOutput: audioOutput
+        source: "qrc:/testMusics/方大同-回留.mp3"
+    }
 
     Item {
         id: dragArea
@@ -176,15 +188,27 @@ Window {
         height: 6
 
         from: 0
-        to: 215
+        to: player.duration
+        value: player.position
     }
 
-    // Text {
-    //     id: playingSliderTest
-    //     text: playingSlider.position
-    //     anchors.top: playingSlider.bottom
-    //     anchors.horizontalCenter: playingSlider.horizontalCenter
-    // }
+    // 毫秒转分秒字符串(mm:ss)
+    function formatMsToMinSec(ms) {
+        // 1. 输入校验：如果不是数字/负数/NaN，默认返回00:00
+        if (typeof ms !== 'number' || isNaN(ms) || ms < 0) {
+            return "00:00";
+        }
+        // 2. 毫秒转总秒数（向下取整，避免小数）
+        const totalSeconds = Math.floor(ms / 1000);
+        // 3. 计算分钟和秒（均取整数）
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        // 4. 补零处理：确保分钟/秒都是两位数（不足则前面补0）
+        const twoDigitMinutes = minutes.toString().padStart(2, '0');
+        const twoDigitSeconds = seconds.toString().padStart(2, '0');
+        // 5. 返回最终格式的字符串
+        return `${twoDigitMinutes}:${twoDigitSeconds}`;
+    }
 
     Text {
         id: duration
@@ -192,7 +216,7 @@ Window {
         anchors.top: playingSlider.bottom
         anchors.topMargin: 8
 
-        text: "03:35"
+        text: formatMsToMinSec(player.duration)
 
         font.family: "Segoe UI Semibold"
         font.pointSize: 10
@@ -206,7 +230,7 @@ Window {
         anchors.top: playingSlider.bottom
         anchors.topMargin: 8
 
-        text: "01:27"
+        text: formatMsToMinSec(player.position)
 
         font.family: "Segoe UI Semibold"
         font.pointSize: 10
@@ -327,8 +351,10 @@ Window {
             }
             onStateNumChanged: {
                 if(stateNum === 0){
+                    player.pause()
                     playButton.source = "qrc:/icons/play_max.svg"
                 }else {
+                    player.play()
                     playButton.source = "qrc:/icons/pause_max.svg"
                 }
             }
@@ -413,6 +439,10 @@ Window {
             id: songlistView
             anchors.fill: parent
             anchors.margins: 20
+
+            onCurrentSongFilePathChanged: {
+                console.log("window received : " + currentSongFilePath)
+            }
         }
     }
 
