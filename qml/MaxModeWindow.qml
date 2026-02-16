@@ -189,7 +189,27 @@ Window {
 
         from: 0
         to: player.duration
+
         value: player.position
+
+        onIsDraggingChanged: {
+            if(isDragging){
+            }else{// 结束拖动进度条，执行进度跳转
+                player.position = playingSlider.value
+            }
+        }
+
+        Connections {
+            target: player
+            function onPositionChanged() {
+                if (!(playingSlider.isDragging)) {
+                    playingSlider.value = player.position
+                    //console.log("非拖动时同步")
+                }else {
+                    //console.log("拖动时不做处理")
+                }
+            }
+        }
     }
 
     // 毫秒转分秒字符串(mm:ss)

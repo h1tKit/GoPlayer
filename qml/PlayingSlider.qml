@@ -11,10 +11,25 @@ Item {
     property alias position: slider.position
     property alias value: slider.value
 
+    property real outsideValue: 0
+    property real dragValue: slider.value
+
+    property bool isDragging: false
+
     Slider {
         id: slider
         anchors.fill: parent
         handle: Item{}
+
+        onPressedChanged: {
+            if (pressed) {
+                root.isDragging = true
+                console.log("draging...")
+            } else {
+                root.isDragging = false
+                console.log("end draging...")
+            }
+        }
     }
 
     Rectangle {
