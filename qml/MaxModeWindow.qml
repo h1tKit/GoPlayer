@@ -24,6 +24,10 @@ Window {
         id: player
         audioOutput: audioOutput
         source: "qrc:/testMusics/方大同-回留.mp3"
+
+        onPlaybackStateChanged: {
+            console.log(playbackState)
+        }
     }
 
     Item {
@@ -364,18 +368,25 @@ Window {
             id: playButtonSwitch
             anchors.fill: parent
 
-            property int stateNum: 0
-
             onIsTapped: {
-                stateNum = stateNum === 0 ? 1 : 0
-            }
-            onStateNumChanged: {
-                if(stateNum === 0){
+                if(player.playbackState === MediaPlayer.PlayingState){
                     player.pause()
                     playButton.source = "qrc:/icons/play_max.svg"
-                }else {
+                }else if(player.playbackState === MediaPlayer.PausedState){
                     player.play()
                     playButton.source = "qrc:/icons/pause_max.svg"
+                }else { // 播放完毕一首歌
+                    player.play()
+                    playButton.source = "qrc:/icons/pause_max.svg"
+                }
+            }
+
+            Connections {
+                target: player
+                function onPlaybackStateChanged(){
+                    if(player.playbackState === MediaPlayer.StoppedState){  // 播放完毕一首歌
+                        playButton.source = "qrc:/icons/play_max.svg"
+                    }
                 }
             }
         }
