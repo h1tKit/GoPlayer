@@ -5,10 +5,13 @@
 #include <QResource>
 #include <QDebug>
 #include <QDir>
+#include "../header/songtagparser.h"
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
+
+    qmlRegisterType<SongTagParser>("MyCustomModule", 1, 0, "SongTagParser");
 
     QQuickStyle::setStyle("Fusion");
 

@@ -3,6 +3,7 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Layouts
 import QtQuick.Controls
 import QtMultimedia
+import MyCustomModule 1.0
 
 Window {
     id: window
@@ -27,6 +28,13 @@ Window {
 
         onPlaybackStateChanged: {
             console.log(playbackState)
+        }
+    }
+
+    SongTagParser {
+        id: songTagParser
+        Component.onCompleted: {
+            songTagParser.getInfoOf("../../resource/musics/方大同-回留.mp3")
         }
     }
 
@@ -142,7 +150,9 @@ Window {
         anchors.top: coverShadow.bottom
         anchors.topMargin: 5
 
-        text: "title"
+        Component.onCompleted: {
+            text = Qt.binding(function(){return songTagParser.title})
+        }
 
         font.family: "Segoe UI Semibold"
         font.pointSize: 20
@@ -157,7 +167,9 @@ Window {
         anchors.top: title.bottom
         anchors.topMargin: 6
 
-        text: "artist"
+        Component.onCompleted: {
+            text = Qt.binding(function(){return songTagParser.artist})
+        }
 
         font.family: "Segoe UI Semilight"
         font.pointSize: 18
@@ -171,7 +183,9 @@ Window {
         anchors.top: title.bottom
         anchors.topMargin: 6
 
-        text: " - album"
+        Component.onCompleted: {
+            text = Qt.binding(function(){return " - "+songTagParser.album})
+        }
 
         font.family: "Segoe UI Semilight"
         font.pointSize: 18
@@ -254,7 +268,7 @@ Window {
         anchors.top: playingSlider.bottom
         anchors.topMargin: 8
 
-        text: formatMsToMinSec(player.position)
+        text: formatMsToMinSec(playingSlider.value)
 
         font.family: "Segoe UI Semibold"
         font.pointSize: 10
@@ -437,35 +451,6 @@ Window {
             color: "white"
         }
 
-        ColumnLayout {
-            visible: false
-            anchors.centerIn: parent
-            spacing: 15
-
-            TextField {
-                id: pathInput
-                Layout.preferredWidth: 300
-                placeholderText: "filepath: (such as：C:/test.txt)"
-                font.pixelSize: 14
-            }
-
-            Button {
-                text: "Get"
-                Layout.alignment: Qt.AlignHCenter
-                font.pixelSize: 14
-
-                onClicked: {
-                    // QML中console.log会自动映射到C++的qDebug输出
-                    console.log("用户输入的文件路径：", pathInput.text)
-
-                    // 输入为空，给出提示
-                    if (pathInput.text.trim() === "") {
-                        console.log("文件路径输入为空！")
-                    }
-                }
-            }
-        }
-
         SongListView {
             id: songlistView
             anchors.fill: parent
@@ -476,6 +461,5 @@ Window {
             }
         }
     }
-
 
 }

@@ -2,8 +2,28 @@ cmake_minimum_required(VERSION 3.16)
 
 project(GoPlayerUI VERSION 0.1 LANGUAGES CXX)
 
+# 定义 TAGLIB_STATIC 宏，适配 TagLib 静态库
+add_compile_definitions(TAGLIB_STATIC)
+
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTORCC ON)
+
+
+# 查找 TagLib 头文件
+find_path(TAGLIB_INCLUDE_DIR
+    NAMES taglib/fileref.h
+    PATHS ${CMAKE_CURRENT_SOURCE_DIR}/cpp/libs/taglib/include
+    NO_DEFAULT_PATH
+)
+
+# 查找 TagLib 静态库
+find_library(TAGLIB_LIBRARY
+    NAMES tag libtag
+    PATHS ${CMAKE_CURRENT_SOURCE_DIR}/cpp/libs/taglib/lib
+    NO_DEFAULT_PATH
+)
+
 
 find_package(Qt6 REQUIRED COMPONENTS Quick QuickControls2)
 
@@ -28,12 +48,16 @@ qt_add_qml_module(appGoPlayerUI
         qml/SongListView.qml
 
     SOURCES
+        cpp/header/songtagparser.h
+
         cpp/source/main.cpp
+        cpp/source/songtagparser.cpp
 
     RESOURCES
         resource/icons/icons.qrc
         resource/images/images.qrc
         resource/musics/musics.qrc
+
 
 )
 
@@ -49,9 +73,16 @@ set_target_properties(appGoPlayerUI PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
+# 添加头文件路径（TagLib + FFmpeg）
+target_include_directories(appGoPlayerUI
+    PRIVATE
+        ${TAGLIB_INCLUDE_DIR}  # TagLib 头文件
+)
+
 target_link_libraries(appGoPlayerUI
     PRIVATE Qt6::Quick
     PRIVATE Qt6::QuickControls2
+    ${TAGLIB_LIBRARY}
 )
 
 include(GNUInstallDirs)
