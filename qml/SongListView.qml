@@ -21,9 +21,9 @@ ListView {
             filePath: "apple.mp3"
         }
         ListElement {
-            title: "Orange"
-            artist: "chengzi"
-            filePath: "orange.flac"
+            title: "灰色轨迹"
+            artist: "BEYOND"
+            filePath: "BEYOND - 灰色轨迹.flac"
         }
         ListElement {
             title: "Banana"
@@ -36,9 +36,9 @@ ListView {
             filePath: "strawberry.mp3"
         }
         ListElement {
-            title: "Grape"
-            artist: "putao"
-            filePath: "grape.flac"
+            title: "她说"
+            artist: "林俊杰"
+            filePath: "林俊杰 - 她说.mp3"
         }
         ListElement {
             title: "Mango"
@@ -278,7 +278,7 @@ ListView {
 
             sourceComponent: Image {
                 anchors.fill: parent
-                source: coverFilePath
+                source: "image://audioCovers/" + "../../resource/musics/" + delegateItem.songFilePath
                 fillMode: Image.PreserveAspectFit
                 cache: true // 开启图片缓存，避免重复加载同一图片
                 asynchronous: true // 异步加载图片，不阻塞UI线程

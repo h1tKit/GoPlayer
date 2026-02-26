@@ -48,7 +48,11 @@ qt_add_qml_module(appGoPlayerUI
         qml/SongListView.qml
 
     SOURCES
+        cpp/source/myFunctions.h
+
         cpp/header/songtagparser.h
+        cpp/source/coverhelper.h
+        cpp/source/coverimageprovider.h
 
         cpp/source/main.cpp
         cpp/source/songtagparser.cpp
@@ -56,9 +60,6 @@ qt_add_qml_module(appGoPlayerUI
     RESOURCES
         resource/icons/icons.qrc
         resource/images/images.qrc
-        resource/musics/musics.qrc
-
-
 )
 
 

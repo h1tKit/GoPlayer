@@ -24,17 +24,20 @@ Window {
     MediaPlayer {
         id: player
         audioOutput: audioOutput
-        source: "qrc:/testMusics/方大同-回留.mp3"
+        source: DebugExeDir + "/../../resource/musics/Sasha Sloan - Dancing With Your Ghost.mp3"
 
         onPlaybackStateChanged: {
             console.log(playbackState)
+        }
+        Component.onCompleted: {
+            console.log(DebugExeDir)
         }
     }
 
     SongTagParser {
         id: songTagParser
         Component.onCompleted: {
-            songTagParser.getInfoOf("../../resource/musics/方大同-回留.mp3")
+            songTagParser.getInfoOf("../../resource/musics/Sasha Sloan - Dancing With Your Ghost.mp3")
         }
     }
 
@@ -108,7 +111,7 @@ Window {
             id: coverImage
             anchors.fill: parent
 
-            source: "qrc:/img/cover2.jpg"
+            source: "image://audioCovers/" + "../../resource/musics/Sasha Sloan - Dancing With Your Ghost.mp3"
             fillMode: Image.PreserveAspectCrop
 
             layer.enabled: true
